@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #444;
+  height: 100vh;
+  padding: 2rem;
+  border: 2rem solid rgb(124, 152, 179);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: rgb(124, 152, 179);
+}
+
+.welcome {
+  font-size: 1.9rem;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+}
+.login__input {
+  border: none;
+  padding: 0.5rem 2rem;
+  font-size: 1.6rem;
+  font-family: inherit;
+  text-align: center;
+  width: 12rem;
+  border-radius: 7rem;
+  margin-right: 1rem;
+  color: inherit;
+  border: 1px solid #fff;
+  transition: all 0.3s;
+}
+.login__input:focus {
+  outline: none;
+  border: 1px solid rgb(7, 13, 69);
+}
+.login__btn {
+  padding: 10px;
+  border: none;
+  border-radius: 0.7rem;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.login__btn:hover, .login__btn:focus {
+  outline: none;
+  color: #fff;
+}
