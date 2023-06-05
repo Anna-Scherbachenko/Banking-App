@@ -74,3 +74,17 @@ function displayMovements(movements) {
     });
 }
 displayMovements(account1.movements);
+
+function createLogIn(accs) {
+  accs.forEach(function (acc) {
+    acc.logIn = acc.owner
+      .toLowerCase()
+      .split(" ")
+      .map(function (val) {
+        return val[0];
+      })
+      .join("");
+  });
+}
+createLogIn(accounts);
+console.log(accounts);
