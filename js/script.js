@@ -57,12 +57,11 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUser = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-
 function displayMovements(movements) {
-    containerMovements.innerHTML = "";
-    movements.forEach(function (value, index) {
-        const type = value > 0 ? "deposit" : "withdrawal";
-        const html = `
+  containerMovements.innerHTML = "";
+  movements.forEach( (value, index) => {
+    const type = value > 0 ? "deposit" : "withdrawal";
+    const html = `
         <div class="movements__row">
                 <div class="movements__type movements__type--${type}">
                     ${index + 1} ${type}
@@ -70,13 +69,13 @@ function displayMovements(movements) {
                 <div class="movements__date">02/26/2023</div>
                 <div class="movements__value">${value}</div>
             </div>`;
-        containerMovements.insertAdjacentHTML("afterbegin", html);
-    });
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
 }
 displayMovements(account1.movements);
 
 function createLogIn(accs) {
-  accs.forEach(function (acc) {
+  accs.forEach( (acc) => {
     acc.logIn = acc.owner
       .toLowerCase()
       .split(" ")
@@ -87,4 +86,26 @@ function createLogIn(accs) {
   });
 }
 createLogIn(accounts);
-console.log(accounts);
+
+function culcPrintBalance(movements) {
+  const balance = movements.reduce( (acc, val) => acc + val);
+  labelBalance.textContent = `${balance}$`;
+}
+culcPrintBalance(account1.movements);
+
+//Withdrawal and income amounts in the footer
+function culcDisplaySum(movements) {
+  const income = movements
+    .filter((val) => val > 0)
+    .reduce((acc, val) => acc + val, 0);
+  labelSumIn.textContent = `${income}$`;
+
+  const withdrawal = movements
+    .filter((val) => val < 0)
+    .reduce((acc, val) => acc + val, 0);
+  labelSumOn.textContent = `${Math.abs(withdrawal)}$`;
+
+  labelSumInterest.textContent = `${income + withdrawal}$`
+}
+
+culcDisplaySum(account1.movements);
