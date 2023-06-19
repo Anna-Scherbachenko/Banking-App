@@ -59,7 +59,7 @@ const inputClosePin = document.querySelector(".form__input--pin");
 
 function displayMovements(movements) {
   containerMovements.innerHTML = "";
-  movements.forEach( (value, index) => {
+  movements.forEach((value, index) => {
     const type = value > 0 ? "deposit" : "withdrawal";
     const html = `
         <div class="movements__row">
@@ -75,7 +75,7 @@ function displayMovements(movements) {
 displayMovements(account1.movements);
 
 function createLogIn(accs) {
-  accs.forEach( (acc) => {
+  accs.forEach((acc) => {
     acc.logIn = acc.owner
       .toLowerCase()
       .split(" ")
@@ -88,13 +88,13 @@ function createLogIn(accs) {
 createLogIn(accounts);
 
 function culcPrintBalance(movements) {
-  const balance = movements.reduce( (acc, val) => acc + val);
+  const balance = movements.reduce((acc, val) => acc + val);
   labelBalance.textContent = `${balance}$`;
 }
 culcPrintBalance(account1.movements);
 
 //Withdrawal and income amounts in the footer
-function culcDisplaySum(movements) {
+function calcDisplaySum(movements) {
   const income = movements
     .filter((val) => val > 0)
     .reduce((acc, val) => acc + val, 0);
@@ -105,7 +105,7 @@ function culcDisplaySum(movements) {
     .reduce((acc, val) => acc + val, 0);
   labelSumOn.textContent = `${Math.abs(withdrawal)}$`;
 
-  labelSumInterest.textContent = `${income + withdrawal}$`
+  labelSumInterest.textContent = `${income + withdrawal}$`;
 }
 
-culcDisplaySum(account1.movements);
+calcDisplaySum(account1.movements);
