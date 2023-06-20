@@ -42,7 +42,7 @@ const labelSumInterest = document.querySelector(".summary__value--interest");
 const labelTimer = document.querySelector(".timer");
 
 //buttons
-const btnLogin = document.querySelector(".login__input");
+const btnLogin = document.querySelector(".login__btn");
 const btnTransfer = document.querySelector(".form__btn--transfer");
 const btnLoan = document.querySelector(".form__btn--loan");
 const btnClose = document.querySelector(".form__btn--close");
@@ -87,11 +87,11 @@ function createLogIn(accs) {
 }
 createLogIn(accounts);
 
-function culcPrintBalance(movements) {
+function calcPrintBalance(movements) {
   const balance = movements.reduce((acc, val) => acc + val);
   labelBalance.textContent = `${balance}$`;
 }
-culcPrintBalance(account1.movements);
+calcPrintBalance(account1.movements);
 
 //Withdrawal and income amounts in the footer
 function calcDisplaySum(movements) {
@@ -109,3 +109,23 @@ function calcDisplaySum(movements) {
 }
 
 calcDisplaySum(account1.movements);
+
+//registration
+let currentAccount;
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  currentAccount = accounts.find(function (acc) {
+    return acc.logIn === inputLoginUser.value;
+  });
+  console.log(currentAccount);
+  if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+    containerApp.style.opacity = 100;
+    //deleting "user" and "pin" after registration
+    inputLoginPin.value = inputLoginUser.value = "";
+    
+    displayMovements(currentAccount.movements);
+    calcPrintBalance(currentAccount.movements);
+    calcDisplaySum(currentAccount.movements);
+  }
+});
