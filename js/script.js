@@ -57,6 +57,7 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUser = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+//--------------------------------------------------
 function displayMovements(movements) {
   containerMovements.innerHTML = "";
   movements.forEach((value, index) => {
@@ -73,7 +74,7 @@ function displayMovements(movements) {
   });
 }
 displayMovements(account1.movements);
-
+//--------------------------------------------------
 function createLogIn(accs) {
   accs.forEach((acc) => {
     acc.logIn = acc.owner
@@ -86,7 +87,7 @@ function createLogIn(accs) {
   });
 }
 createLogIn(accounts);
-
+//--------------------------------------------------
 function calcPrintBalance(acc) {
   acc.balance = acc.movements.reduce(function (acc, val) {
     return acc + val;
@@ -94,7 +95,7 @@ function calcPrintBalance(acc) {
 
   labelBalance.textContent = `${acc.balance}$`;
 }
-
+//--------------------------------------------------
 //Withdrawal and income amounts in the footer
 function calcDisplaySum(movements) {
   const income = movements
@@ -109,13 +110,13 @@ function calcDisplaySum(movements) {
 
   labelSumInterest.textContent = `${income + withdrawal}$`;
 }
-
+//--------------------------------------------------
 function updateUI(acc) {
   displayMovements(acc.movements);
   calcPrintBalance(acc);
   calcDisplaySum(acc.movements);
 }
-
+//--------------------------------------------------
 //registration
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
@@ -133,7 +134,7 @@ btnLogin.addEventListener("click", function (e) {
     updateUI(currentAccount);
   }
 });
-
+//--------------------------------------------------
 //Money Transfer
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
@@ -155,3 +156,22 @@ btnTransfer.addEventListener("click", function (e) {
     inputTransferTo.value = inputTransferAmount.value = "";
   }
 });
+//--------------------------------------------------
+//Close Account
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (
+    inputCloseUser.value === currentAccount.logIn &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(function (acc) {
+      return acc.logIn === currentAccount.logIn
+    });
+    console.log(index);
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+    //console.log(accounts);
+  }
+  inputCloseUser.value = inputClosePin.value = ""; 
+});
+
