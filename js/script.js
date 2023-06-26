@@ -87,11 +87,13 @@ function createLogIn(accs) {
 }
 createLogIn(accounts);
 
-function calcPrintBalance(movements) {
-  const balance = movements.reduce((acc, val) => acc + val);
-  labelBalance.textContent = `${balance}$`;
+function calcPrintBalance(acc) {
+  acc.balance = acc.movements.reduce(function (acc, val) {
+    return acc + val;
+  });
+
+  labelBalance.textContent = `${acc.balance}$`;
 }
-calcPrintBalance(account1.movements);
 
 //Withdrawal and income amounts in the footer
 function calcDisplaySum(movements) {
@@ -108,7 +110,11 @@ function calcDisplaySum(movements) {
   labelSumInterest.textContent = `${income + withdrawal}$`;
 }
 
-calcDisplaySum(account1.movements);
+function updateUI(acc) {
+  displayMovements(acc.movements);
+  calcPrintBalance(acc);
+  calcDisplaySum(acc.movements);
+}
 
 //registration
 let currentAccount;
@@ -123,9 +129,29 @@ btnLogin.addEventListener("click", function (e) {
     containerApp.style.opacity = 100;
     //deleting "user" and "pin" after registration
     inputLoginPin.value = inputLoginUser.value = "";
-    
-    displayMovements(currentAccount.movements);
-    calcPrintBalance(currentAccount.movements);
-    calcDisplaySum(currentAccount.movements);
+
+    updateUI(currentAccount);
+  }
+});
+
+//Money Transfer
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const reciveAcc = accounts.find(function (acc) {
+    return acc.logIn === inputTransferTo.value;
+  });
+  const amount = Number(inputTransferAmount.value);
+  console.log(amount, reciveAcc);
+  if (
+    reciveAcc &&
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    reciveAcc.logIn !== currentAccount.logIn
+  ) {
+    currentAccount.movements.push(-amount);
+    reciveAcc.movements.push(amount);
+    updateUI(currentAccount);
+    inputTransferTo.value = inputTransferAmount.value = "";
   }
 });
