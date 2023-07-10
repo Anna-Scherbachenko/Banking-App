@@ -58,9 +58,12 @@ const inputCloseUser = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
 //--------------------------------------------------
-function displayMovements(movements) {
+function displayMovements(movements, sort = false) {
   containerMovements.innerHTML = "";
-  movements.forEach((value, index) => {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach((value, index) => {
     const type = value > 0 ? "deposit" : "withdrawal";
     const html = `
         <div class="movements__row">
@@ -165,13 +168,42 @@ btnClose.addEventListener("click", function (e) {
     Number(inputClosePin.value) === currentAccount.pin
   ) {
     const index = accounts.findIndex(function (acc) {
-      return acc.logIn === currentAccount.logIn
+      return acc.logIn === currentAccount.logIn;
     });
     console.log(index);
     accounts.splice(index, 1);
     containerApp.style.opacity = 0;
-    //console.log(accounts);
+    // console.log(accounts);
   }
-  inputCloseUser.value = inputClosePin.value = ""; 
+  inputCloseUser.value = inputClosePin.value = "";
 });
 
+//--------------------------------------------------
+//Contribute money
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = "";
+});
+
+//--------------------------------------------------
+//Overall balance
+const overalBalance = accounts
+  .map((acc) => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+  // console.log(account1.movements.sort());
+
+
+//--------------------------------------------------
+//Sort movements
+let sorted = false;
+btnSort.addEventListener("click", function(e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
